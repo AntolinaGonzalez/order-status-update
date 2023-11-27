@@ -2,6 +2,7 @@ import { SQSEvent, SQSRecord } from "aws-lambda";
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 import { StatusChangeEvent } from "../dto/StatusChangeEvent";
+import { v4 as uuidv4 } from "uuid";
 
 const {
   // variables 
@@ -21,14 +22,11 @@ export const statusLambdaHandler = async (event: SQSEvent) => {
           new PutCommand({
             TableName,
             Item: {
+              id: uuidv4(),
               order_id:statusChangeEvent.order_id,
               order_status: statusChangeEvent.status,
               description: statusChangeEvent.description
-            },
-            ExpressionAttributeValues: {
-              ':status_reject': 'REJECTED',
-            },
-            ConditionExpression: 'attribute_not_exists(order_id) OR order_status=:status_reject' ,
+            }
           })
       );
   } catch (error: any) {

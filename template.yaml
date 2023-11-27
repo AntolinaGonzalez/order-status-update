@@ -56,10 +56,10 @@ Resources:
       TableName: order-status
       AttributeDefinitions:
         -
-          AttributeName: order_id
+          AttributeName: id
           AttributeType: !Ref HashKeyElementType
       KeySchema:
         -
-          AttributeName: order_id
+          AttributeName: id
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
