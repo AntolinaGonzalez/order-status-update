@@ -1,0 +1,21 @@
+{
+  "name": "order-status-update",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.458.0",
+    "@aws-sdk/lib-dynamodb": "^3.458.0",
+    "aws-lambda": "^1.0.7",
+    "esbuild": "^0.19.7"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.129"
+  }
+}

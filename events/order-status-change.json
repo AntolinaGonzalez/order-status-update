@@ -1,0 +1,15 @@
+{
+  "Records": [
+    {
+      "messageId": "339c6567-33df-4e5b-b677-03b49ec1ed6b",
+      "receiptHandle": "",
+      "body": "{\"order_id\": \"1234abc\", \"status\": \"shipped\", \"description\": \"your package is traveling\"}",
+      "attributes": "",
+      "messageAttributes": {},
+      "md5OfBody": "",
+      "eventSource": "",
+      "eventSourceARN": "",
+      "awsRegion": ""
+    }
+  ]
+}

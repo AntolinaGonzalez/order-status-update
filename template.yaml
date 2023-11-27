@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: personal project
+
+Globals:
+  Function:
+    Timeout: 30
+
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+    Default: dev
+  Region:
+    Type: String
+  HashKeyElementType:
+    Type: String
+    Default: S
+    Description: Hash Key Type
+
+Resources:
+  StatusChangeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub status-change-${Environment}
+      CodeUri: src/
+      Handler: index.statusLambdaHandler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: order-status
+      Events:
+       StatusChangeIncEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt StatusChangeQueue.Arn
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        EntryPoints:
+          - index.ts
+  StatusChangeQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: !Sub status-change-${Environment}
+
+#DynamoTable
+  OrderBotTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: order-status
+      AttributeDefinitions:
+        -
+          AttributeName: order_id
+          AttributeType: !Ref HashKeyElementType
+      KeySchema:
+        -
+          AttributeName: order_id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
